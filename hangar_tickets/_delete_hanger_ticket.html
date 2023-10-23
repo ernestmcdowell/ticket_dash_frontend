@@ -1,0 +1,17 @@
+{% block content %}
+{% load widget_tweaks %}
+<form method="post" action="">
+  {% csrf_token %}
+  <div class="modal-header">
+    <h3 class="modal-title">Delete Ticket</h3>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure you want to delete Ticket #:
+      <strong>{{ ticket.pk }}</strong>?</p>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn update-count btn-secondary" data-bs-dismiss="modal">Close</button>
+    <button type="submit" class="btn btn-danger">Delete</button>
+  </div>
+</form>
+{% endblock content %}

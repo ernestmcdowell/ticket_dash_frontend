@@ -1,0 +1,44 @@
+<table id="projects-table" class="project-table table-responsive">
+    <thead>
+    <tr>
+        <th>Project Name</th>
+        <th>Number of Contractors</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for project in page_obj %}
+        <tr>
+            <td>{{ project.project_name }}</td>
+            <td>{{ project.contractor_count }}</td>
+            <td>
+                <button type="button" id="update-project" class="update-project bs-modal btn btn-sm btn-primary"
+                        data-form-url="{% url 'edit_project' project.slug %}">Update
+                </button>
+            </td>
+            <td>
+                <button type="button" id="delete-project" class="delete-project bs-modal btn btn-sm btn-danger"
+                        data-form-url="{% url 'delete_project' project.slug %}">Delete
+                </button>
+            </td>
+            <td>
+                <button type="button" id="pay-report" class="download-pdf-btn btn btn-sm btn-primary" data-project-id="{{ project.slug }}"
+                        onclick="submitForm(this)">Pay Report
+                </button>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% block scripts %}
+
+    <script type="text/javascript">
+        function submitForm(btn) {
+            var form = document.getElementById("date-range-form");
+            form.action = '/project_pdf_file/' + btn.dataset.projectId;
+            form.submit();
+        }
+    </script>
+
+{% endblock scripts %}

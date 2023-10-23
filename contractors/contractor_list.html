@@ -1,0 +1,162 @@
+{% extends 'ticket_app/base/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load thumbnail %}
+
+{% block css %}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0-alpha1/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css" rel="stylesheet" type="text/css"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+{% endblock css %}
+
+{% block content %}
+    {% include "ticket_app/base/_modal.html" %}
+    <main>
+        <h1>Contractors</h1>
+        <div class="recent-tickets">
+            <div class="analytics">
+                <button id="add-contractor" class="btn btn-primary" type="button" name="button">Create Contractor</button>
+                <div id="date-range-form-container">
+                    <form id="date-range-form">
+                        <div class="date">
+                            <label for="start_date">Report Start Date:</label>
+                            <input class="date" type="date" id="start_date" name="start_date">
+                        </div>
+                        <div class="date">
+                            <label for="end_date">Report End Date:</label>
+                            <input class="date" type="date" id="end_date" name="end_date">
+                        </div>
+                    </form>
+                </div>
+                <br>
+                {% include 'ticket_app/contractors/_contractor_table.html' %}
+            </div>
+            <!-- Pagination Logic here -->
+        </div>
+    </main>
+    {% include 'ticket_app/base/right_menu.html' %}
+{% endblock content %}
+
+
+{% block scripts %}
+    <!-- Scripts here -->
+    <script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="{% static 'js/jquery-3.2.1.in.js' %}"></script>
+    <script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
+    <script src="{% static 'frontend/index.js' %}"></script>
+    <script type="text/javascript">
+
+        var asyncSuccessMessageUpdate = [
+            "<div ",
+            "style='position:absolute;top:150;z-index:10000;width:25%;border-radius:0;' ",
+            "class='alert alert-icon alert-success alert-dismissible fade show mb-0' role='alert'>",
+            "Success: Ticket was updated.",
+            "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>",
+            "<span aria-hidden='true'>&times;</span>",
+            "</button>",
+            "</div>",
+            "<script>",
+            "$('.alert').fadeTo(2000, 500).slideUp(500, function () {$('.alert').slideUp(500).remove();});",
+            "<\/script>"
+        ].join("");
+
+        // modal form
+        function updateClientModalForm() {
+            $(".update-client").each(function () {
+                $(this).modalForm({
+                    formURL: $(this).data("form-url"),
+                    asyncUpdate: true,
+                    asyncSettings: {
+                        closeOnSubmit: true,
+                        successMessage: asyncSuccessMessageUpdate,
+                        dataUrl: "contractors/?page=" + {{ page_obj.number }},
+                        dataElementId: "#contractors-table",
+                        dataKey: "contractor-table",
+                        addModalFormFunction: reinstantiateModalForms
+                    }
+                });
+            });
+        }
+
+        updateClientModalForm()
+
+
+        function reinstantiateModalForms() {
+            updateClientModalForm();
+        }
+
+
+        // Hide message
+        jQuery(".alert").fadeTo(2000, 500).slideUp(500, function () {
+            $(".alert").slideUp(500);
+        });
+
+    </script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#add-contractor").modalForm({
+                formURL: "{% url 'add_contractor' %}"
+            });
+
+        });
+    </script>
+    <script type="text/javascript">
+        // Delete book buttons - formURL is retrieved from the data of the element
+        $(".delete-contractor").each(function () {
+            $(this).modalForm({formURL: $(this).data("form-url"), isDeleteForm: true});
+        });
+
+        document.getElementById('start_date').valueAsDate = new Date();
+        document.getElementById('end_date').valueAsDate = new Date()
+    </script>
+
+    <script type="text/javascript">
+        function showTutorial() {
+            introJs().setOptions({
+                steps: [{
+                    intro: "This is your contractors page. This is where you will create and manage contractors, as well " +
+                        "as generate pay reports based on a specified date range."
+                }, {
+                    element: document.querySelector('#add-contractor'),
+                    intro: "Clicking this button will allow you to create a new contractor."
+                }, {
+                    element: document.querySelector('#update-contractor'),
+                    intro: "Pressing this button will allow you to update an existing contractors information."
+                },
+                    {
+                        element: document.querySelector('#date-range-form'),
+                        intro: "The Report Start and End dates will allow you to select any date range" +
+                            " you wish for a pay report."
+                    },
+                    {
+                        element: document.querySelector('#pay-report'),
+                        intro: "Clicking this button will generate the pay report based on the date range specified."
+                    },
+                    {
+                        element: document.querySelector('#delete-contractor'),
+                        intro: "Clicking this button will delete the respective contractor."
+                    },
+                    {
+                        element: document.querySelector('#sub-contractor'),
+                        intro: "Click the subcontractor button next."
+                    },
+                ]
+            }).start();
+        }
+    </script>
+
+
+    <script src="{% static 'frontend/index.js' %}"></script>
+
+
+{% endblock scripts %}

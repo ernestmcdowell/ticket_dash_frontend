@@ -1,0 +1,103 @@
+{#{% extends 'base.html' %}#}
+{% block content %}
+    {% load static %}
+    {% load widget_tweaks %}
+
+    <form id="images_form" method="POST" enctype=multipart/form-data>
+        {% csrf_token %}
+
+        <div class="modal-header">
+            <h3 class="modal-title">Upload Images</h3>
+        </div>
+
+        <div class="modal-body">
+            <div id="upload-progress">
+                Upload Progress: <span id="progress-value">0%</span>
+                Estimated Completion Time: <span id="estimated-time">Calculating...</span>
+            </div>
+            <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2">
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {% render_field field class="form-control" placeholder=field.label %}
+                    <div class="{% if field.errors %} invalid{% endif %}">
+                        {% for error in field.errors %}
+                            <p class="help-block">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" id="upload-button" class="btn btn-primary">Upload</button>
+        </div>
+    </form>
+
+
+{% endblock content %}
+
+{% block scripts %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script type="text/javascript">
+        $("#upload-button").click(function (e) {
+            e.preventDefault(); // prevent the default form submission behavior
+            $("#images_form").submit(); // submit the form
+        });
+        $("#images_form").submit(function () {
+            $("#upload_images_modal").modal("hide"); // hide the modal
+            location.reload(); // refresh the page
+        });
+
+    </script>
+
+    <script>
+        // Add an event listener to the form submission
+        $("#images_form").on('submit', function () {
+            var formData = new FormData(this);
+
+            $.ajax({
+                type: 'POST',
+                url: '{% url 'upload_images' %}', // Replace with the actual URL of your upload view
+                data: formData,
+                contentType: false,
+                processData: false,
+                xhr: function () {
+                    var xhr = new window.XMLHttpRequest();
+                    xhr.upload.addEventListener('progress', function (e) {
+                        if (e.lengthComputable) {
+                            var percentComplete = (e.loaded / e.total) * 100;
+                            var uploadSpeed = e.loaded / (e.timeStamp / 1000); // Bytes per second
+                            var estimatedTime = ((e.total - e.loaded) / uploadSpeed).toFixed(1); // Estimated time in seconds
+
+                            // Update the progress information
+                            $("#progress-value").text(percentComplete.toFixed(2) + '%');
+                            $("#estimated-time").text(estimatedTime + 's');
+                        }
+                    });
+
+                    return xhr;
+                },
+                success: function (data) {
+                    // Handle the success response from the server
+                },
+                error: function () {
+                    // Handle any errors
+                }
+            });
+
+            return false;
+        });
+
+    </script>
+
+
+
+{% endblock scripts %}

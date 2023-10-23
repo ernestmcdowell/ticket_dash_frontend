@@ -1,0 +1,22 @@
+{% load static %}
+{% block content %}
+
+    <div class="recent-update">
+        <h2>Recent Update</h2>
+        <div class="updates">
+            {% for action in recent_actions %}
+                <div class="update">
+                    <div class="profile-photo">
+                        <span class="material-icons-sharp">person</span>
+                    </div>
+
+                    <div class="message">
+                        <p><b>{{ user }}</b> {{ action }}</p>
+                        <small class="text-muted">{{ action.date }}</small>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock content %}

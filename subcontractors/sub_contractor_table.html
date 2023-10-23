@@ -1,0 +1,56 @@
+<table id="sub-contractors-table" class="sub-contractor-table table-responsive">
+    <thead>
+    <tr>
+        <th>Prime Contractor</th>
+        <th>Sub Name</th>
+        <th>Fema Number</th>
+        <th>Phone Number</th>
+        <th>Has Insurance</th>
+        <th>Debris Pay Rate</th>
+        <th>Hangar Pay Rate</th>
+        <th>Leaner Pay Rate</th>
+        <th>Update</th>
+        <th>Report</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for sub_contractor in sub_contractors %}
+        <tr>
+            <td>{{ sub_contractor.primary_contractor.contractor_name }}</td>
+            <td>{{ sub_contractor.sub_contractor_name }}</td>
+            <td>{{ sub_contractor.fema_number }}</td>
+            <td>{{ sub_contractor.phone_number }}</td>
+            <td>{{ sub_contractor.has_insurance }}</td>
+            <td>{{ sub_contractor.pay_rate }}</td>
+            <td>{{ sub_contractor.hangar_pay_rate }}</td>
+            <td>{{ sub_contractor.leaner_pay_rate }}</td>
+            <td class="primary">
+                <button type="button" id="update-sub" class="update-subs  bs-modal btn btn-sm btn-primary"
+                        data-form-url="{% url 'edit_sub_contractor' sub_contractor.id %}">Update
+                </button>
+            </td>
+            <td>
+                <button type="button" id="pay-report" class="download-pdf-btn btn btn-sm btn-primary" data-contractor-id="{{ sub_contractor.id }}"
+                        onclick="submitForm(this)">Pay Report
+                </button>
+            </td>
+            <td>
+                <button type="button" id="delete-sub-contractor" class="delete-contractor bs-modal btn btn-sm btn-danger"
+                        data-form-url="{% url 'delete_sub' sub_contractor.id %}">Delete
+                </button>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% block scripts %}
+    <script type="text/javascript">
+        function submitForm(btn) {
+            var form = document.getElementById("date-range-form");
+            form.action = '/sub_pdf_file/' + btn.dataset.contractorId;
+            form.submit();
+        }
+    </script>
+{% endblock %}

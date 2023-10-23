@@ -1,0 +1,269 @@
+{% include 'ticket_app/base/nav_home.html' %}
+{% load static %}
+{% block content %}
+    {% block css %}
+        <head>
+            <title>Ticket Pros</title>
+
+        </head>
+        {% include 'ticket_app/base/_modal.html' %}
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+        {#        <link rel="stylesheet" href="{% static 'frontend/style.css' %}">#}
+
+        <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}"/>
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
+        <!-- Google fonts-->
+        <link rel="preconnect" href="https://fonts.gstatic.com"/>
+        <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,600;1,600&amp;display=swap"
+              rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300;0,500;0,600;0,700;1,300;1,500;1,600;1,700&amp;display=swap"
+              rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;1,400&amp;display=swap"
+              rel="stylesheet"/>
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet"/>
+        <link
+                href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+                rel="stylesheet"
+                integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+                crossorigin="anonymous"
+        />
+        <link
+                rel="stylesheet"
+                href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css"
+        />
+        <link
+                rel="stylesheet"
+                href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css"
+        />
+        <!-- Custom styles for this template -->
+
+    {% endblock css %}
+
+    <header class="masthead">
+        <div class="container  px-5">
+            <div class="row gx-5 align-items-center">
+                <div class="col-lg-6">
+                    <!-- Mashead text and app badges-->
+                    <div class="mb-5 mb-lg-0 text-center text-lg-start">
+                        <h1 class="display-1 lh-1 mb-3">Quick, Simple, Easy to use!</h1>
+                        <p class="lead fw-normal text-muted mb-5">Automatically process large quantities of debris load
+                            tickets.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <img src="media/show_case01.png" width="800" height="500">
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+      {% csrf_token %}
+
+        <!-- App features section-->
+        <section id="features ">
+                    <div class="container justify-content-center align-items-center px-5">
+                        <div class="row gx-5 justify-content-center align-items-center">
+                            <div class="col-lg-8 order-lg-1 mb-5 mb-lg-0">
+                                <div class="container-fluid justify-content-center align-items-center px-5">
+                                    <div class="row gx-5">
+                                        <div class="col-md-6 mb-5">
+                                            <!-- Feature item-->
+                                            <div class="text-center justify-content-center align-items-center">
+                                                <i class="bi bi-file-text-fill icon-feature text-gradient d-block mb-3"></i>
+                                                <h3 class="font-alt">Process Debris Tickets</h3>
+                                                <p class="text-muted mb-0">Process large quantities of debris load tickets
+                                                    quickly!</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-5">
+                                            <!-- Feature item-->
+                                            <div class="text-center">
+                                                <i class="bi-camera icon-feature text-gradient d-block mb-3"></i>
+                                                <h3 class="font-alt">Scan and Upload</h3>
+                                                <p class="text-muted mb-0">Scan your tickets and upload!</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-5 mb-md-0">
+                                            <!-- Feature item-->
+                                            <div class="text-center">
+                                                <i class="bi bi-bar-chart-line icon-feature text-gradient d-block mb-3"></i>
+                                                <h3 class="font-alt">Generate Pay Reports</h3>
+                                                <p class="text-muted mb-0">Easily generate reports from your receipts/tickets.</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <!-- Feature item-->
+                                            <div class="text-center">
+                                                <i class="bi bi-currency-dollar icon-feature text-gradient d-block mb-3"></i>
+                                                <h3 class="font-alt">Cost Effective</h3>
+                                                <p class="text-muted mb-0">Processing large amounts of debris tickets
+                                                    by hand takes time and money. We can do it quicker and cheaper</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            <br>
+            <div class="container px-5">
+                <div class="card-deck mb-3 text-center">
+                    <div class="card mb-4 box-shadow">
+                        <div class="card-header">
+                            <h4 class="my-0 font-weight-normal">Contact Us!</h4>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li>Email us, and we will get back with you as soon as possible!</li>
+                            </ul>
+                            <a type="button" id="contact_us" class="btn btn-lg btn-block btn-outline-primary">Contact Us</a>
+                        </div>
+                    </div>
+{#                    <div class="card mb-4 box-shadow">#}
+{#                        <div class="card-header">#}
+{#                            <h4 class="my-0 font-weight-normal">Pro</h4>#}
+{#                        </div>#}
+{#                        <div class="card-body">#}
+{#                            <h1 class="card-title pricing-card-title">$5000 <small class="text-muted">/ year</small></h1>#}
+{#                            <ul class="list-unstyled mt-3 mb-4">#}
+{#                                <li>Process 500 tickets each month</li>#}
+{#                                <li>Priority email support</li>#}
+{#                                <li>Help center access</li>#}
+{#                            </ul>#}
+{#                            <button type="button" id="buy_pro_btn" class="btn btn-lg btn-block btn-primary">Purchase#}
+{#                            </button>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="card mb-4 box-shadow">#}
+{#                        <div class="card-header">#}
+{#                            <h4 class="my-0 font-weight-normal">Subscribe!</h4>#}
+{#                        </div>#}
+{#                        <div class="card-body">#}
+{#                            <h1 class="card-title pricing-card-title">$15000 <small class="text-muted">/ year</small></h1>#}
+{#                            <ul class="list-unstyled mt-3 mb-4">#}
+{#                                <li>No limit on number of tickets</li>#}
+{#                                <li>Phone and email support</li>#}
+{#                            </ul>#}
+{#                            <button type="button" id="buy_enterprise_btn" class="btn btn-lg btn-block btn-primary">#}
+{#                                Purchase#}
+{#                            </button>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+            </div>
+        </section>
+
+
+        <!-- Footer-->
+        <footer class="bg-black text-center py-5">
+            <div class="container px-5">
+                <div class="text-white-50 small">
+                    <div class="mb-2">&copy; Ticket Pros LLC 2023. All Rights Reserved.</div>
+
+<a href="#!" id="tos-btn">Terms of Service</a>                </div>
+                <img src="{% static 'img/Service-Disabled Veteran-Owned-Certified.jpg' %}" width="100" height="150">
+
+            </div>
+        </footer>
+    </main>
+
+
+{% endblock content %}
+
+{% block scripts %}
+    <script src="https://js.stripe.com/v3/"></script>
+        <script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+            crossorigin="anonymous">
+    </script>
+    <script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+    <script src="{% static 'js/jquery-3.2.1.in.js' %}"></script>
+    <script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#login-btn").modalForm({
+                formURL: "{% url 'login' %}"
+            });
+        });
+        $(document).ready(function () {
+            $("#register-btn").modalForm({
+                formURL: "{% url 'register' %}"
+            });
+        });
+        $(document).ready(function () {
+            $("#tos-btn").modalForm({
+                formURL: "{% url 'tos' %}"
+            });
+        });
+        $(document).ready(function () {
+            $("#contact_us").modalForm({
+                formURL: "{% url 'contact_us' %}"
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#sign_up").modalForm({
+                formURL: "{% url 'register' %}"
+            });
+        });
+    </script>
+
+
+    <script>
+        const buy_pro_button = document.querySelector('#buy_pro_btn')
+        buy_pro_button.addEventListener('click', event => {
+            fetch('/checkout_pro/')
+                .then((result) => {
+                    return result.json()
+                })
+                .then((data) => {
+                    var stripe = Stripe(data.stripe_public_key);
+
+                    stripe.redirectToCheckout({
+                        // Make the id field from the Checkout Session creation API response
+                        // available to this file, so you can provide it as parameter here
+                        // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
+                        sessionId: data.session_id
+                    }).then(function (result) {
+                        // If `redirectToCheckout` fails due to a browser or network
+                        // error, display the localized error message to your customer
+                        // using `result.error.message`.
+                    });
+                })
+        })
+    </script>
+
+    <script>
+        const buy_ent_button = document.querySelector('#buy_enterprise_btn')
+        buy_ent_button.addEventListener('click', event => {
+            fetch('/checkout_enterprise/')
+                .then((result) => {
+                    return result.json()
+                })
+                .then((data) => {
+                    var stripe = Stripe(data.stripe_public_key);
+
+                    stripe.redirectToCheckout({
+                        // Make the id field from the Checkout Session creation API response
+                        // available to this file, so you can provide it as parameter here
+                        // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
+                        sessionId: data.session_id
+                    }).then(function (result) {
+                        // If `redirectToCheckout` fails due to a browser or network
+                        // error, display the localized error message to your customer
+                        // using `result.error.message`.
+                    });
+                })
+        })
+    </script>
+{% endblock scripts %}

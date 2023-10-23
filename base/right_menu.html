@@ -1,0 +1,39 @@
+{% load static %}
+{% block content %}
+    <div class="right">
+        <div class="top">
+            <button id="menu-btn">
+                <span class="material-icons-sharp">menu</span>
+            </button>
+            <div>
+                <a id="home" href="{% url 'home' %}">
+                    <span class="material-icons-sharp">home</span>
+                </a>
+            </div>
+            <div class="theme-toggle">
+                <span class="material-icons-sharp active">light_mode</span>
+                <span class="material-icons-sharp">dark_mode</span>
+            </div>
+            <div class="profile">
+                <span onclick="showTutorial()" class="material-icons-sharp">help_center</span>
+                <div class="info">
+                    <p><b class="text-uppercase">{{ user }}</b></p>
+                    <small class="text-muted">
+                        {% if user.is_authenticated %}
+                            {% if user.is_staff %}
+                                <p>Welcome, Admin!</p>
+                            {% else %}
+                                <p>Welcome!</p>
+                            {% endif %}
+                        {% endif %}
+                    </small>
+                </div>
+                <div class="profile-photo">
+                    <a id="user_profile" href="{% url 'user_profile' %}" title="View Profile" class="profile-link">
+                        <span class="material-icons-sharp">person</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

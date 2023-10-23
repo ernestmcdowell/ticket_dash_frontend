@@ -1,0 +1,61 @@
+{% load static %}
+
+<aside>
+    <div class="top">
+        <div class="logo">
+            <a href="{{ request.path }}">
+            <img src="{% static 'img/medium.png' %}" width="200" height="200">
+                </a>
+        </div>
+        <div class="close" id="close-btn">
+            <span class="material-icons-sharp">close</span>
+        </div>
+    </div>
+
+    <div id="nav" class="sidebar">
+{#        <a href="{% url 'dashboard_home' %}">#}
+{#            <span class="material-icons-sharp">dashboard</span>#}
+{#            <h3>Dashboard</h3>#}
+{#        </a>#}
+        <a id="projects" href="{% url 'project_list' %}">
+            <span class="material-icons-sharp active">construction</span>
+            <h3>Projects</h3>
+        </a>
+        <a id="contractor" href="{% url 'contractor_list' %}">
+            <span class="material-icons-sharp active">person</span>
+            <h3>Contractors</h3>
+        </a>
+        <a id="sub-contractor" href="{% url 'sub_contractor_list' %}">
+            <span class="material-icons-sharp active">person</span>
+            <h3>Subcontractors</h3>
+        </a>
+        <a id="debris" href="{% url 'debris_list' %}">
+            <span class="material-icons-sharp active">grass</span>
+            <h3>Debris Area</h3>
+        </a>
+        <a id="trucks" href="{% url 'truck_list' %}">
+            <span class="material-icons-sharp">local_shipping</span>
+            <h3>Trucks</h3>
+        </a>
+        <a id="tickets" href="{% url 'ticket_list' %}">
+            <span class="material-icons-sharp">receipt_long</span>
+            <h3>Tickets</h3>
+        </a>
+        <a id="tickets" href="{% url 'hangar_ticket_list' %}">
+            <span class="material-icons-sharp">receipt_long</span>
+            <h3>Leaner-Hangar Tickets</h3>
+        </a>
+        <a id="contractor" href="{% url 'logout' %}">
+            <span class="material-icons-sharp">logout</span>
+            <h3>Logout</h3>
+        </a>
+
+
+    </div>
+</aside>
+
+
+
+{% block content %}
+
+{% endblock content %}

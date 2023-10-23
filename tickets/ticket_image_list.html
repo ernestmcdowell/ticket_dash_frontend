@@ -1,0 +1,165 @@
+{% extends 'ticket_app/base/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+    {% include 'ticket_app/base/_modal.html' %}
+    <main>
+        <h1>Ticket Images</h1>
+        <div class="insights">
+            <div class="yards">
+                <span class="material-icons-sharp">receipt_long</span>
+                <div class="middle">
+                    <div class="left">
+                        <h3>Total Tickets</h3>
+                        <h1>{{ ticket_count }}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="tickets">
+                <span class="material-icons-sharp">receipt_long</span>
+                <div class="middle">
+                    <div class="left">
+                        <h3>Not Extracted</h3>
+                        <h1>{{ ticket_count_not_extracted }}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="income">
+                <span class="material-icons-sharp">receipt_long</span>
+                <div class="middle">
+                    <div class="left">
+                        <h3>Extracted</h3>
+                        <h1>{{ ticket_count_extracted }}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <form method="GET">
+                {{ image_filter.form }}
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+
+        <div class="recent-tickets">
+            {% csrf_token %}
+            <table>
+                <thead>
+                <tr>
+                    <th>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="selectAll"
+                                   onchange="selectAllCheckboxes()">
+                        </div>
+                    </th>
+                    <th>Image</th>
+                    <th>Extracted</th>
+                    <th>Details</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for ticket_image in page_obj %}
+                    <tr>
+                        <td>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" data-id="{{ ticket_image.id }}"
+                                       id="exampleCheck1">
+                            </div>
+                        </td>
+                        {% load thumbnail %}
+                        <td><img src="{% thumbnail ticket_image.images "500x500" %}" alt="img"></td>
+                        <td>{{ ticket_image.extracted }}</td>
+                        <td class="primary">
+                            <button type="button" class="delete-image bs-modal btn btn-sm btn-danger"
+                                    data-form-url="{% url 'delete_ticket_image' ticket_image.id %}">Delete
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+        </div>
+
+
+    </main>
+    <div class="right">
+        <div class="top">
+            <button id="menu-btn">
+                <span class="material-icons-sharp">menu</span>
+            </button>
+            <div class="theme-toggle">
+                <span class="material-icons-sharp active">light_mode</span>
+                <span class="material-icons-sharp">dark_mode</span>
+            </div>
+            <div class="profile">
+                <div class="info">
+                    <p>Hello, <b class="text-uppercase">{{ user }}</b></p>
+                    <small class="text-muted">
+                        {% if user.is_authenticated %}
+                            {% if user.is_staff %}
+                                <p>Welcome, Admin!</p>
+                            {% else %}
+                                <p>Welcome, Regular User!</p>
+                            {% endif %}
+                        {% endif %}
+                    </small>
+                </div>
+                <div class="profile-photo">
+                    <span class="material-icons-sharp">person</span>
+                </div>
+            </div>
+        </div>
+        <div class="analytics">
+            <button type="button" id="add-ticket-images" class="item" data-bs-toggle="modal">
+                <span class="material-icons-sharp">add</span> Add Images
+            </button>
+        </div>
+    </div>
+
+
+{% endblock content %}
+
+
+{% block scripts %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="{% static 'js/jquery-3.2.1.in.js' %}"></script>
+    <script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
+
+    <script type="text/javascript">
+        $("#add-ticket-images").modalForm({
+            formURL: "{% url 'upload_images' %}",
+            modalID: "#upload_images_modal"
+        })
+        type = "text/javascript" >
+            // Delete book buttons - formURL is retrieved from the data of the element
+            $(".delete-image").each(function () {
+                $(this).modalForm({formURL: $(this).data("form-url"), isDeleteForm: true});
+            });
+    </script>
+    <script src="{% static 'frontend/index.js' %}"></script>
+
+{% endblock scripts %}

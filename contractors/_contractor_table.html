@@ -1,0 +1,90 @@
+{% block css %}
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
+<link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.tailwindcss.com"></script>
+
+
+
+
+{% endblock css %}
+<div class="container-fluid mt-3">
+    <table class="table table-striped table-bordered table-responsive">
+        <thead>
+        <tr>
+            <th>Project</th>
+            <th>Contractor Name</th>
+            <th>Fema Number</th>
+            <th>Phone Number</th>
+            <th>Has Insurance</th>
+            <th>Debris Pay Rate</th>
+            <th>Hangar Pay Rate</th>
+            <th>Leaner Pay Rate</th>
+            <th>Number of Subs</th>
+            <th>Update</th>
+            <th>Debris Report</th>
+            <th>Hangar Report</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for contractor in page_obj %}
+            <tr>
+                <td>{{ contractor.project_name }}</td>
+                <td>{{ contractor.contractor_name }}</td>
+                <td>{{ contractor.fema_number }}</td>
+                <td>{{ contractor.phone_number }}</td>
+                <td>{{ contractor.has_insurance }}</td>
+                <td>{{ contractor.pay_rate }}</td>
+                <td>{{ contractor.hangar_pay_rate }}</td>
+                <td>{{ contractor.leaner_pay_rate }}</td>
+                <td>{{ contractor.sub_contractor_count }}</td>
+                <td>
+                    <button type="button" id="update-contractor"
+                            class="btn btn-primary btn-sm"
+                            data-form-url="{% url 'edit_contractor' contractor.id %}">Update
+                    </button>
+                </td>
+                <td>
+                    <button type="button" id="pay-report" class="btn btn-primary btn-sm"
+                            data-contractor-id="{{ contractor.id }}"
+                            onclick="submitForm(this)">Pay Report
+                    </button>
+                </td>
+                <td>
+                    <button type="button" id="pay-report" class="btn btn-primary btn-sm"
+                            data-contractor-id="{{ contractor.id }}"
+                            onclick="submitHangarForm(this)">Hangar Pay Report
+                    </button>
+                </td>
+                <td>
+                    <button type="button" id="delete-contractor"
+                            class="btn btn-danger btn-sm"
+                            data-form-url="{% url 'delete_contractor' contractor.id %}">Delete
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% block scripts %}
+    <script type="text/javascript">
+        function submitForm(btn) {
+            var form = document.getElementById("date-range-form");
+            form.action = '/pdf_file/' + btn.dataset.contractorId;
+            form.submit();
+        }
+    </script>
+    <script type="text/javascript">
+        function submitHangarForm(btn) {
+            var form = document.getElementById("date-range-form");
+            form.action = '/hanger_pdf_file/' + btn.dataset.contractorId;
+            form.submit();
+        }
+    </script>
+
+{% endblock %}

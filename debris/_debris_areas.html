@@ -1,0 +1,25 @@
+<table id="debris-table" class="debris-table table-responsive">
+    <thead>
+    <tr>
+        <th>Debris Area</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for areas in page_obj %}
+        <tr>
+            <td>{{ areas.area }}</td>
+            <td>{{ areas.drop_point }}</td>
+            <td class="primary">
+                <button type="button" class="update-debris bs-modal btn btn-sm btn-primary"
+                        data-form-url="{% url 'edit_debris' areas.id %}">Update
+                </button>
+            </td>
+            <td>
+                <button type="button" class="delete-debris bs-modal btn btn-sm btn-danger"
+                        data-form-url="{% url 'delete_debris' areas.id %}">Delete
+                </button>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

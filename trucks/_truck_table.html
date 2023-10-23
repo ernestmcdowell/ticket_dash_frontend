@@ -1,0 +1,28 @@
+<table id="trucks-table" class="truck-table table-responsive">
+    <thead>
+    <tr>
+        <th>Truck Number</th>
+        <th>Subcontractor</th>
+        <th>Primary Contractor</th>
+        <th>Capacity</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for truck in page_obj %}
+        <tr>
+            <td>{{ truck.truck_number }}</td>
+            <td>{{ truck.sub_contractor}}</td>
+            <td>{% if truck.sub_contractor %}{{ truck.sub_contractor.primary_contractor.contractor_name }}{% endif %}</td>
+            <td>{{ truck.truck_capacity }}</td>
+            <td>
+                <button type="button" id="update-truck" class="update-truck bs-modal btn btn-sm btn-primary"
+                        data-form-url="{% url 'edit_truck' truck.pk %}">Update
+                </button>
+                <button type="button" id="delete-truck" class="delete-truck bs-modal btn btn-sm btn-danger"
+                        data-form-url="{% url 'delete_truck' truck.pk %}">Delete
+                </button>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

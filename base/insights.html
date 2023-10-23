@@ -1,0 +1,40 @@
+{% load static %}
+{% block content %}
+
+    <div class="insights">
+        <div class="yards">
+            <span class="material-icons-sharp">analytics</span>
+            <div class="middle">
+                <div class="left">
+                    <h3>Total Yards</h3>
+                    <h1>
+                        {% if truck_filter.data.Truck_No %}
+                            {{ selected_truck_total_yards.total_yardage__sum }}
+                        {% else %}
+                            {{ total_yardage_all_truck }}
+                        {% endif %}
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <div class="tickets">
+            <span class="material-icons-sharp">analytics</span>
+            <div class="middle">
+                <div class="left">
+                    <h3>Total Tickets</h3>
+                    <h1>{{ ticket_count }}</h1>
+                </div>
+            </div>
+        </div>
+        <div class="income">
+            <span class="material-icons-sharp">analytics</span>
+            <div class="middle">
+                <div class="left">
+                    <h3>Projected Income</h3>
+                    <h1>${{ projected_income }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

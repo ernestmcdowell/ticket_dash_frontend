@@ -1,0 +1,11 @@
+{% extends 'ticket_app/base/base.html' %}
+{% block content %}
+    <main>
+        <h1>Add Ticket</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Add Ticket">
+        </form>
+    </main>
+{% endblock %}

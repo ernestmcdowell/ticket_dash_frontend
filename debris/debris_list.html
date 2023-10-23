@@ -1,0 +1,148 @@
+{% extends 'ticket_app/base/base.html' %}
+{% load static %}
+{% load thumbnail %}
+{% load crispy_forms_tags %}
+{% block content %}
+    {% include "ticket_app/base/_modal.html" %}
+    <main>
+        <h1>Debris Areas</h1>
+        <div class="recent-tickets">
+            <div class="analytics">
+                <button id="add-debris" class="btn btn-primary" type="button" name="button">Add Debris Area</button>
+            </div>
+        <br>
+            <form method="GET">
+                {% csrf_token %}
+                {% include 'ticket_app/debris/_debris_areas.html' %}
+            </form>
+
+            <div class="pagination justify-content-center">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1"><button type="button" class="update-ticket bs-modal btn btn-sm btn-primary">First
+                </button></a>
+                    <a href="?page={{ page_obj.previous_page_number }}" class="previous-link"><button type="button"
+                                                                                                      class="update-ticket bs-modal btn btn-sm btn-primary">Previous
+                </button></a>
+                {% endif %}
+
+                <span class="current">
+                    <b>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</b>
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}" class="next-link"><button type="button"
+                                                                                              class="update-ticket bs-modal btn btn-sm btn-primary">Next
+                </button></a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}"><button type="button"
+                                                                               class="update-ticket bs-modal btn btn-sm btn-primary">Last
+                </button></a>
+                {% endif %}
+            </span>
+            </div>
+        </div>
+
+
+    </main>
+        {% include 'ticket_app/base/right_menu.html' %}
+
+{% endblock content %}
+
+{% block scripts %}
+    <script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="{% static 'js/jquery-3.2.1.in.js' %}"></script>
+    <script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
+
+    <script type="text/javascript">
+
+        var asyncSuccessMessageUpdate = [
+            "<div ",
+            "style='position:absolute;top:150;z-index:10000;width:25%;border-radius:0;' ",
+            "class='alert alert-icon alert-success alert-dismissible fade show mb-0' role='alert'>",
+            "Success: Ticket was updated.",
+            "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>",
+            "<span aria-hidden='true'>&times;</span>",
+            "</button>",
+            "</div>",
+            "<script>",
+            "$('.alert').fadeTo(2000, 500).slideUp(500, function () {$('.alert').slideUp(500).remove();});",
+            "<\/script>"
+        ].join("");
+
+        // modal form
+        function updateDebrisModalForm() {
+            $(".update-debris").each(function () {
+                $(this).modalForm({
+                    formURL: $(this).data("form-url"),
+                    asyncUpdate: true,
+                    asyncSettings: {
+                        closeOnSubmit: true,
+                        successMessage: asyncSuccessMessageUpdate,
+                        dataUrl: "debris/?page=" + {{ page_obj.number }},
+                        dataElementId: "#debris-table",
+                        dataKey: "debris-table",
+                        addModalFormFunction: reinstantiateModalForms
+                    }
+                });
+            });
+        }
+
+        updateDebrisModalForm()
+
+
+        function reinstantiateModalForms() {
+            updateDebrisModalForm();
+        }
+
+
+        // Hide message
+        jQuery(".alert").fadeTo(2000, 500).slideUp(500, function () {
+            $(".alert").slideUp(500);
+        });
+
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#add-debris").modalForm({
+                formURL: "{% url 'add_debris' %}"
+            });
+
+        });
+    </script>
+
+    <script type="text/javascript">
+        // Delete book buttons - formURL is retrieved from the data of the element
+        $(".delete-debris").each(function () {
+            $(this).modalForm({formURL: $(this).data("form-url"), isDeleteForm: true});
+        });
+    </script>
+
+    <script type="text/javascript">
+        function showTutorial() {
+            introJs().setOptions({
+                steps: [{
+                    intro: "This is the debris area page. This is where you will add debris areas."
+                },
+                    {
+                        element: document.querySelector('#trucks'),
+                        intro: "Click the trucks button next."
+                    },
+                ]
+            }).start();
+        }
+    </script>
+
+    <script src="{% static 'frontend/questionable_count.js' %}"></script>
+    <script src="{% static 'frontend/index.js' %}"></script>
+
+
+{% endblock scripts %}

@@ -1,0 +1,55 @@
+{% extends 'ticket_app/base/base.html' %}
+{% load static %}
+{% block content %}
+    <main>
+        <h1>Dashboard</h1>
+        {% include 'ticket_app/base/insights.html' %}
+
+        <div class="recent-tickets">
+        </div>
+    </main>
+    {% include 'ticket_app/base/right_menu.html' %}
+
+    {% include 'ticket_app/base/recent_updates.html' %}
+
+    </div>
+{% endblock content %}
+
+{% block scripts %}
+    <script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
+
+    <script type="text/javascript">
+        function showTutorial() {
+            introJs().setOptions({
+                steps: [{
+                    intro: "Hi, this is a quick tutorial that will show you around. This won't take long, only a few steps and you'll be ready to go!"
+                }, {
+                    element: document.querySelector('#nav'),
+                    intro: "This is the navigation menu. It will allow you to get from on page to another"
+                },
+                    {
+                        element: document.querySelector('#projects'),
+                        intro: "Clicking this button will bring you to the page to manage your project."
+                    },
+                    {
+                        element: document.querySelector('#contractor'),
+                        intro: "Clicking this button will bring you to the page to manage your contractors."
+                    }, {
+                        element: document.querySelector('#debris'),
+                        intro: "Clicking this button will bring you to the page to manage your debris areas."
+                    }, {
+                        element: document.querySelector('#tickets'),
+                        intro: "Clicking this button will bring you to the page to manage your tickets."
+                    }, {
+                        element: document.querySelector('#trucks'),
+                        intro: "Clicking this button will bring you to the page to manage your trucks."
+                    },
+                    {
+                        intro: "Lets start by clicking the contractors button."
+                    },]
+            }).start();
+        }
+    </script>
+
+{% endblock scripts %}
+
